@@ -1,4 +1,4 @@
-import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract class NetworkInfo {
@@ -6,10 +6,16 @@ abstract class NetworkInfo {
 }
 
 class NetworkInfoImpl implements NetworkInfo {
-  final DataConnectionChecker dataConnectionChecker;
+  final Future<ConnectivityResult> dataConnectionChecker;
 
   NetworkInfoImpl({@required this.dataConnectionChecker});
 
   @override
-  Future<bool> get isConnected => dataConnectionChecker.hasConnection;
+  Future<bool> get isConnected =>
+      dataConnectionChecker.then((connectivityResult) {
+        if (connectivityResult != ConnectivityResult.none)
+          return true;
+        else
+          return false;
+      });
 }

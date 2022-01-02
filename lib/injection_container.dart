@@ -1,5 +1,5 @@
 import 'package:chopper/chopper.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:clean_architecture_with_bloc_app/core/network/network_info.dart';
 import 'package:clean_architecture_with_bloc_app/core/network/rest_client_service.dart';
@@ -115,7 +115,7 @@ Future<void> init() async {
   final SharedPreferences sharedPreferences =
       await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => DataConnectionChecker());
+  sl.registerLazySingleton(() => Connectivity().checkConnectivity());
   final client = ChopperClient(interceptors: [
     CurlInterceptor(),
     HttpLoggingInterceptor(),
